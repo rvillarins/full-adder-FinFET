@@ -19,7 +19,7 @@ VCin CIN gnd pwl(0 0 1n 0 1.01n 0.7 2n 0.7 2.01n 0 3n 0           4n 0 4.01n 0.7
                                                                                                                                                                              
 *Hardware description 
 
-*NAND Subcircuit
+*Subcircuits
 
 .subckt NAND A B OUT
 MP1 VDD a out VDD PMOS w=wp l=16n 
