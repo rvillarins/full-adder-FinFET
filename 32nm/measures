@@ -1,0 +1,19 @@
+td_lh_c0            =  5.168676e-11 targ=  5.581153e-10 trig=  5.064286e-10
+td_hl_c0            =  4.878595e-11 targ=  1.052357e-09 trig=  1.003571e-09
+td_lh_c1            =  6.241803e-11 targ=  2.068847e-09 trig=  2.006429e-09
+td_hl_c1            =  5.523192e-11 targ=  2.558803e-09 trig=  2.503571e-09
+td_lh_a0            =  5.394754e-10 targ=  4.045904e-09 trig=  3.506429e-09
+td_hl_a0            =  4.233258e-11 targ=  4.045904e-09 trig=  4.003571e-09
+td_lh_b0            =  5.088515e-11 targ=  5.054457e-09 trig=  5.003571e-09
+td_hl_c0            =  6.010160e-11 targ=  5.566530e-09 trig=  5.506429e-09
+td_lh_bcout0        =  2.558737e-09 targ=  8.065165e-09 trig=  5.506429e-09
+td_hl_bcout0        =  2.557906e-09 targ=  8.561478e-09 trig=  6.003571e-09
+td_lh_acout0        =  1.564189e-09 targ=  9.570618e-09 trig=  8.006429e-09
+td_hl_acout0        =  1.559650e-09 targ=  1.006322e-08 trig=  8.503571e-09
+td_lh_ccout0        =  1.558912e-09 targ=  1.106534e-08 trig=  9.506429e-09
+td_hl_ccout0        =  1.558055e-09 targ=  1.156163e-08 trig=  1.000357e-08
+energ_favdd         =   -4.71965e-14 from=  1.00000e-11 to=  1.20000e-08
+avgi_a              =  4.119044e-10 from=  1.000000e-11 to=  1.200000e-08
+avgi_b              =  -6.222050e-09 from=  1.000000e-11 to=  1.200000e-08
+avgi_cin            =  4.672854e-10 from=  1.000000e-11 to=  1.200000e-08
+powera              =  6.39112e-09

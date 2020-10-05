@@ -1,0 +1,209 @@
+*Full adder 
+
+* Libraries
+.include 45nm_PTM_HP.pm
+
+* Transistor's W parameters (tenologies)
+
+.param wp=90n
+.param wn=45n
+.param supply = 1
+
+* VDD and power suplies
+VVdd    VDD gnd supply
+.global VDD
+
+Va   A   gnd pwl(0 0 0.5n 0           1n 0           1.5n 0 1.51n 0.7 2n 0.7         2.5n 0.7         3n 0.7 3.01n 0 3.5n 0 3.51n 0.7 4n 0.7 4.01n 0 4.5n 0           5n 0            5.5n 0              6n 0            6.5n 0            7n 0            7.5n 0              8n 0   8.01n 0.7 8.5n 0.7 8.51n 0 9n 0   9.01n 0.7 9.5n 0.7          10n 0.7          10.5n 0.7 10.51n 0   11n 0            11.5n 0            12n 0)
+Vb   B   gnd pwl(0 0 0.5n 0           1n 0 		   1.5n 0 1.51n 0.7 2n 0.7         2.5n 0.7         3n 0.7 3.01n 0 3.5n 0           4n 0           4.5n 0 4.51n 0.7 5n 0.7 5.01n 0 5.5n 0   5.51n 0.7 6n 0.7 6.01n 0 6.5n 0 6.51n 0.7 7n 0.7 7.01n 0 7.5n 0   7.51n 0.7 8n 0.7            8.5n 0.7          9n 0.7 9.01n 0   9.5n 0            10n 0            10.5n 0   10.51n 0.7 11n 0.7          11.5n 0.7          12n 0.7)
+VCin CIN gnd pwl(0 0 0.5n 0 0.51n 0.7 1n 0.7 1.01n 0 1.5n 0           2n 0 2.01n 0.7 2.5n 0.7 2.51n 0 3n 0           3.5n 0           4n 0           4.5n 0 4.51n 0.7 5n 0.7          5.5n 0.7            6n 0.7          6.5n 0.7          7n 0.7          7.5n 0.7 7.51n 0   8n 0              8.5n 0            9n 0              9.5n 0 9.51n 0.7 10n 0.7 10.01n 0 10.5n 0              11n 0 11.01n 0.7 11.5n 0.7 11.51n 0 12n 0)     
+                                                                                                                                                                             
+*Hardware description 
+
+* Declaraçao inversores entrada A B E Cin
+
+*Mname ND NG NS NB ModName
+
+Mpmos1 A_N A vdd vdd pmos L = 45n W = 90n
+Mnmos1 A_N A gnd gnd nmos L = 45n W = 45n
+
+Mpmos2 B_N B vdd vdd pmos L = 45n W = 90n
+Mnmos2 B_N B gnd gnd nmos L = 45n W = 45n
+
+Mpmos3 Cin_N Cin vdd vdd pmos L = 45n W = 90n
+Mnmos3 Cin_N Cin gnd gnd nmos L = 45n W = 45n
+
+
+********************************************************************************************
+* Inicio Circuito Full-Adder inversores internos 
+Mpmos26 A_NN A_N vdd vdd pmos L = 45n W = 90n
+Mnmos26 A_NN A_N gnd gnd nmos L = 45n W = 45n
+
+Mpmos27 B_NN B_N vdd vdd pmos L = 45n W = 90n
+Mnmos27 B_NN B_N gnd gnd nmos L = 45n W = 45n
+
+Mpmos28 Cin_NN Cin_N vdd vdd pmos L = 45n W = 90n
+Mnmos28 Cin_NN Cin_N gnd gnd nmos L = 45n W = 45n
+
+* Declaração porta XOR 1
+
+
+Mpmos4  4 B_NN vdd vdd       pmos  L = 45n  W = 90n
+Mpmos5  xor1 Cin_N 4 4        pmos  L = 45n  W = 90n
+Mpmos6  5 B_N vdd vdd         pmos  L = 45n  W = 90n
+Mpmos7  xor1 Cin_NN 5 5      pmos  L = 45n  W = 90n
+
+Mnmos4  xor1 B_N 6 6          nmos L = 45n W = 45n
+Mnmos5  6 Cin_N gnd gnd       nmos L = 45n W = 45n
+Mnmos6  xor1 B_NN 7 7        nmos L = 45n W = 45n
+Mnmos7  7 Cin_NN gnd gnd     nmos L = 45n W = 45n
+
+********************************************************************************************
+
+* Declaração porta XOR 2 
+
+Mpmos8 xor1_N xor1 vdd vdd pmos L = 45n W = 90n
+Mnmos8 xor1_N xor1 gnd gnd nmos L = 45n W = 45n
+
+Mpmos9   8 A_NN vdd vdd            pmos  L = 45n  W = 90n
+Mpmos10  saida xor1 8 8           pmos  L = 45n  W = 90n
+Mpmos11  9 A_N vdd vdd           pmos  L = 45n  W = 90n
+Mpmos12  saida xor1_N 9 9         pmos  L = 45n  W = 90n
+
+Mnmos9  saida A_N 10 10          nmos L = 45n W = 45n
+Mnmos10 10 xor1 gnd gnd           nmos L = 45n W = 45n
+Mnmos11 saida A_NN 11 11           nmos L = 45n W = 45n
+Mnmos12  11 xor1_N gnd gnd        nmos L = 45n W = 45n
+
+********************************************************************************************
+
+* Declaração porta AND 1 B AND Cin
+
+Mpmos13 nand1 B_N   vdd vdd        pmos L = 45n W = 90n
+Mpmos14 nand1 Cin_N vdd vdd        pmos L = 45n W = 90n
+Mnmos13 nand1 B_N   12  12         nmos L = 45n W = 45n 
+Mnmos14 12    Cin_N gnd gnd        nmos L = 45n W = 45n
+
+* invesor saida da nand1 
+
+Mpmos15 and1 nand1 vdd vdd    pmos L = 45n W = 90n
+Mnmos15 and1 nand1 gnd gnd    nmos L = 45n W = 45n
+
+*********************************************************************************************
+
+* Declaração porta AND 2 A and B 
+
+Mpmos16 nand2 A_N vdd vdd       pmos L = 45n W = 90n
+Mpmos17 nand2 B_N vdd vdd       pmos L = 45n W = 90n
+Mnmos16 nand2 A_N 13  13        nmos L = 45n W = 45n 
+Mnmos17 13    B_N gnd gnd       nmos L = 45n W = 45n
+
+* invesor saida da nand2 
+
+Mpmos18 and2 nand2 vdd vdd    pmos L = 45n W = 90n
+Mnmos18 and2 nand2 gnd gnd    nmos L = 45n W = 45n
+
+**********************************************************************************************
+
+* Declaração porta AND 3 A and Cin
+
+Mpmos19 nand3 A_N vdd vdd       pmos L = 45n W = 90n
+Mpmos20 nand3 Cin_N vdd vdd     pmos L = 45n W = 90n
+Mnmos19 nand3 A_N 14 14         nmos L = 45n W = 45n 
+Mnmos20 14 Cin_N gnd gnd        nmos L = 45n W = 45n
+
+* invesor saida da nand3 
+
+Mpmos21 and3 nand3 vdd vdd    pmos L = 45n W = 90n
+Mnmos21 and3 nand3 gnd gnd    nmos L = 45n W = 45n
+
+
+**********************************************************************************************
+
+* Declaração porta OR   AND1 + AND2 + AND3 
+
+Mpmos22  15 and1 vdd vdd          pmos  L = 45n  W = 90n
+Mpmos23  16 and2 15 15            pmos  L = 45n  W = 90n
+Mpmos24  nor1 and3 16 16          pmos  L = 45n  W = 90n
+
+Mnmos22  nor1 and1 gnd gnd        nmos L = 45n W = 45n
+Mnmos23  nor1 and2 gnd gnd        nmos L = 45n W = 45n
+Mnmos24  nor1 and3 gnd gnd        nmos L = 45n W = 45n
+
+* invesor saida nor1 
+
+Mpmos25 Cout nor1 vdd vdd    pmos L = 45n W = 90n
+Mnmos25 Cout nor1 gnd gnd    nmos L = 45n W = 45n
+
+*************************************************************************************************
+
+* Declaração inversores de saida
+
+Mpmos29 Cout_N Cout vdd vdd    pmos L = 45n W = 90n
+Mnmos29 Cout_N Cout gnd gnd    nmos L = 45n W = 45n
+
+CCout Cout_N gnd 1.5f
+
+Mpmos30 saida_N saida vdd vdd    pmos L = 45n W = 90n
+Mnmos30 saida_N saida gnd gnd    nmos L = 45n W = 45n 
+
+Csaida saida_N gnd 1f
+
+*Simulation
+
+.TRAN 0.01n 12n
+
+* Measuring saida and carry out output Delay
+
+.MEASURE TRAN td_lh_c0 TRIG     v(CIN) VAL=0.5 RISE=1 TARG v(saida_N) VAL=0.5 RISE=1
+.MEASURE TRAN td_hl_c0 TRIG     v(CIN) VAL=0.5 FALL=1 TARG v(saida_N) VAL=0.5 FALL=1
+							    
+.MEASURE TRAN td_lh_c1 TRIG     v(CIN) VAL=0.5 RISE=2 TARG v(saida_N) VAL=0.5 RISE=2
+.MEASURE TRAN td_hl_c1 TRIG     v(CIN) VAL=0.5 FALL=2 TARG v(saida_N) VAL=0.5 FALL=2
+							    
+.MEASURE TRAN td_lh_a0 TRIG     v(A)   VAL=0.5 RISE=2 TARG v(saida_N) VAL=0.5 FALL=3
+.MEASURE TRAN td_hl_a0 TRIG     v(A)   VAL=0.5 FALL=2 TARG v(saida_N) VAL=0.5 FALL=3
+							    
+.MEASURE TRAN td_lh_b0 TRIG     v(B)   VAL=0.5 FALL=2 TARG v(saida_N) VAL=0.5 RISE=4
+.MEASURE TRAN td_hl_c0 TRIG     v(B)   VAL=0.5 RISE=3 TARG v(saida_N) VAL=0.5 FALL=4
+
+.MEASURE TRAN td_lh_bCout0 TRIG v(B)   VAL=0.5 RISE=3 TARG v(Cout_N) VAL=0.5 RISE=5
+.MEASURE TRAN td_hl_bCout0 TRIG v(B)   VAL=0.5 FALL=3 TARG v(Cout_N) VAL=0.5 FALL=5
+									   
+.MEASURE TRAN td_lh_aCout0 TRIG v(A)   VAL=0.5 RISE=3 TARG v(Cout_N) VAL=0.5 RISE=6
+.MEASURE TRAN td_hl_aCout0 TRIG v(A)   VAL=0.5 FALL=3 TARG v(Cout_N) VAL=0.5 FALL=6
+
+.MEASURE TRAN td_lh_cCout0 TRIG v(CIN) VAL=0.5 RISE=4 TARG v(Cout_N) VAL=0.5 RISE=7
+.MEASURE TRAN td_hl_cCout0 TRIG v(CIN) VAL=0.5 FALL=4 TARG v(Cout_N) VAL=0.5 FALL=7
+
+.MEASURE TRAN td_lh_cCout1 TRIG v(CIN) VAL=0.5 RISE=5 TARG v(Cout_N) VAL=0.5 RISE=8
+.MEASURE TRAN td_hl_cCout1 TRIG v(CIN) VAL=0.5 FALL=5 TARG v(Cout_N) VAL=0.5 FALL=8
+
+* Measuring Power and energy
+
+*energy
+.measure tran energ_FAvdd INTEG i(vvdd) from=0.01n to=12n
+.measure tran energ_FAva  INTEG i(vva)  from=0.01n to=12n
+.measure tran energ_FAvb  INTEG i(vvb)  from=0.01n to=12n
+.measure tran energ_FAvc  INTEG i(vvc)  from=0.01n to=12n
+
+*Power
+.measure tran avgi_a   AVG i(va)   from=0.01n to=12n 
+.measure tran avgi_b   AVG i(vb)   from=0.01n to=12n 
+.measure tran avgi_cin AVG i(vcin) from=0.01n to=12n 
+.measure tran powera PARAM = ((((avgi_a)) + (avgi_b * (-1)) + (avgi_cin)) * 1)
+
+*Printing grath settings
+.control
+set color0=white
+set color1=black
+set xbrushwidth=3
+run
+display 
+plot v(A)
+plot v(B)
+plot v(CIN)
+plot v(Cout_N)
+plot v(saida_N)
+.endc
+
+.end
