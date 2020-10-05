@@ -19,62 +19,164 @@ VCin CIN gnd pwl(0 0 1n 0 1.01n 0.7 2n 0.7 2.01n 0 3n 0           4n 0 4.01n 0.7
                                                                                                                                                                              
 *Hardware description 
 
-*Subcircuits
+* Declaraçao inversores entrada A B E Cin
 
-.subckt NAND A B OUT
-MP1 VDD a out VDD PMOS w=wp l=16n 
-MP2 VDD b out VDD PMOS w=wp l=16n
+*Mname ND NG NS NB ModName
 
-MN1 out a N1  gnd NMOS w=wn l=16n 
-MN2 N1  b gnd gnd NMOS w=wn l=16n
-.ends NAND
+Mpmos1 A_N A vdd vdd pmos L = 16n W = 32n
+Mnmos1 A_N A gnd gnd nmos L = 16n W = 16n
 
-* 2-input NAND Full Adder 
+Mpmos2 B_N B vdd vdd pmos L = 16n W = 32n
+Mnmos2 B_N B gnd gnd nmos L = 16n W = 16n
 
-X1 A   B  N2   NAND
-X2 A   N2 N4   NAND
-X3 N2  B  N3   NAND
-X4 N4  N3 N5   NAND
-X5 CIN N5 N6   NAND
-X6 CIN N6 N7   NAND
-X7 N5  N6 N8   NAND
-X8 N6  N2 COUT NAND
-X9 N7  N8 SUM  NAND
+Mpmos3 Cin_N Cin vdd vdd pmos L = 16n W = 32n
+Mnmos3 Cin_N Cin gnd gnd nmos L = 16n W = 16n
 
-* Capacitors
 
-Ccout COUT gnd 1f
-Csum  SUM  gnd 1f
+********************************************************************************************
+* Inicio Circuito Full-Adder inversores internos 
+Mpmos26 A_NN A_N vdd vdd pmos L = 16n W = 32n
+Mnmos26 A_NN A_N gnd gnd nmos L = 16n W = 16n
+
+Mpmos27 B_NN B_N vdd vdd pmos L = 16n W = 32n
+Mnmos27 B_NN B_N gnd gnd nmos L = 16n W = 16n
+
+Mpmos28 Cin_NN Cin_N vdd vdd pmos L = 16n W = 32n
+Mnmos28 Cin_NN Cin_N gnd gnd nmos L = 16n W = 16n
+
+* Declaração porta XOR 1
+
+
+Mpmos4  4 B_NN vdd vdd       pmos  L = 16n  W = 32n
+Mpmos5  xor1 Cin_N 4 4        pmos  L = 16n  W = 32n
+Mpmos6  5 B_N vdd vdd         pmos  L = 16n  W = 32n
+Mpmos7  xor1 Cin_NN 5 5      pmos  L = 16n  W = 32n
+
+Mnmos4  xor1 B_N 6 6          nmos L = 16n W = 16n
+Mnmos5  6 Cin_N gnd gnd       nmos L = 16n W = 16n
+Mnmos6  xor1 B_NN 7 7        nmos L = 16n W = 16n
+Mnmos7  7 Cin_NN gnd gnd     nmos L = 16n W = 16n
+
+********************************************************************************************
+
+* Declaração porta XOR 2 
+
+Mpmos8 xor1_N xor1 vdd vdd pmos L = 16n W = 32n
+Mnmos8 xor1_N xor1 gnd gnd nmos L = 16n W = 16n
+
+Mpmos9   8 A_NN vdd vdd            pmos  L = 16n  W = 32n
+Mpmos10  saida xor1 8 8           pmos  L = 16n  W = 32n
+Mpmos11  9 A_N vdd vdd           pmos  L = 16n  W = 32n
+Mpmos12  saida xor1_N 9 9         pmos  L = 16n  W = 32n
+
+Mnmos9  saida A_N 10 10          nmos L = 16n W = 16n
+Mnmos10 10 xor1 gnd gnd           nmos L = 16n W = 16n
+Mnmos11 saida A_NN 11 11           nmos L = 16n W = 16n
+Mnmos12  11 xor1_N gnd gnd        nmos L = 16n W = 16n
+
+********************************************************************************************
+
+* Declaração porta AND 1 B AND Cin
+
+Mpmos13 nand1 B_N   vdd vdd        pmos L = 16n W = 32n
+Mpmos14 nand1 Cin_N vdd vdd        pmos L = 16n W = 32n
+Mnmos13 nand1 B_N   12  12         nmos L = 16n W = 16n 
+Mnmos14 12    Cin_N gnd gnd        nmos L = 16n W = 16n
+
+* invesor saida da nand1 
+
+Mpmos15 and1 nand1 vdd vdd    pmos L = 16n W = 32n
+Mnmos15 and1 nand1 gnd gnd    nmos L = 16n W = 16n
+
+*********************************************************************************************
+
+* Declaração porta AND 2 A and B 
+
+Mpmos16 nand2 A_N vdd vdd       pmos L = 16n W = 32n
+Mpmos17 nand2 B_N vdd vdd       pmos L = 16n W = 32n
+Mnmos16 nand2 A_N 13  13        nmos L = 16n W = 16n 
+Mnmos17 13    B_N gnd gnd       nmos L = 16n W = 16n
+
+* invesor saida da nand2 
+
+Mpmos18 and2 nand2 vdd vdd    pmos L = 16n W = 32n
+Mnmos18 and2 nand2 gnd gnd    nmos L = 16n W = 16n
+
+**********************************************************************************************
+
+* Declaração porta AND 3 A and Cin
+
+Mpmos19 nand3 A_N vdd vdd       pmos L = 16n W = 32n
+Mpmos20 nand3 Cin_N vdd vdd     pmos L = 16n W = 32n
+Mnmos19 nand3 A_N 14 14         nmos L = 16n W = 16n 
+Mnmos20 14 Cin_N gnd gnd        nmos L = 16n W = 16n
+
+* invesor saida da nand3 
+
+Mpmos21 and3 nand3 vdd vdd    pmos L = 16n W = 32n
+Mnmos21 and3 nand3 gnd gnd    nmos L = 16n W = 16n
+
+
+**********************************************************************************************
+
+* Declaração porta OR   AND1 + AND2 + AND3 
+
+Mpmos22  15 and1 vdd vdd          pmos  L = 16n  W = 32n
+Mpmos23  16 and2 15 15            pmos  L = 16n  W = 32n
+Mpmos24  nor1 and3 16 16          pmos  L = 16n  W = 32n
+
+Mnmos22  nor1 and1 gnd gnd        nmos L = 16n W = 16n
+Mnmos23  nor1 and2 gnd gnd        nmos L = 16n W = 16n
+Mnmos24  nor1 and3 gnd gnd        nmos L = 16n W = 16n
+
+* invesor saida nor1 
+
+Mpmos25 Cout nor1 vdd vdd    pmos L = 16n W = 32n
+Mnmos25 Cout nor1 gnd gnd    nmos L = 16n W = 16n
+
+*************************************************************************************************
+
+* Declaração inversores de saida
+
+Mpmos29 Cout_N Cout vdd vdd    pmos L = 16n W = 32n
+Mnmos29 Cout_N Cout gnd gnd    nmos L = 16n W = 16n
+
+CCout Cout_N gnd 5.5f
+
+Mpmos30 saida_N saida vdd vdd    pmos L = 16n W = 32n
+Mnmos30 saida_N saida gnd gnd    nmos L = 16n W = 16n 
+
+Csaida saida_N gnd 5f
 
 *Simulation
 
 .TRAN 0.01n 24n
 
-* Measuring sum and carry out output Delay
+* Measuring saida and carry out output Delay
 
-.MEASURE TRAN td_lh_c0 TRIG     v(CIN) VAL=0.35 RISE=1 TARG v(SUM) VAL=0.35 RISE=1
-.MEASURE TRAN td_hl_c0 TRIG     v(CIN) VAL=0.35 FALL=1 TARG v(SUM) VAL=0.35 FALL=1
+.MEASURE TRAN td_lh_c0 TRIG     v(CIN) VAL=0.35 RISE=1 TARG v(saida_N) VAL=0.35 RISE=1
+.MEASURE TRAN td_hl_c0 TRIG     v(CIN) VAL=0.35 FALL=1 TARG v(saida_N) VAL=0.35 FALL=1
 							    
-.MEASURE TRAN td_lh_c1 TRIG     v(CIN) VAL=0.35 RISE=2 TARG v(SUM) VAL=0.35 RISE=2
-.MEASURE TRAN td_hl_c1 TRIG     v(CIN) VAL=0.35 FALL=2 TARG v(SUM) VAL=0.35 FALL=2
+.MEASURE TRAN td_lh_c1 TRIG     v(CIN) VAL=0.35 RISE=2 TARG v(saida_N) VAL=0.35 RISE=2
+.MEASURE TRAN td_hl_c1 TRIG     v(CIN) VAL=0.35 FALL=2 TARG v(saida_N) VAL=0.35 FALL=2
 							    
-.MEASURE TRAN td_lh_a0 TRIG     v(A)   VAL=0.35 RISE=2 TARG v(SUM) VAL=0.35 FALL=3
-.MEASURE TRAN td_hl_a0 TRIG     v(A)   VAL=0.35 FALL=2 TARG v(SUM) VAL=0.35 FALL=3
+.MEASURE TRAN td_lh_a0 TRIG     v(A)   VAL=0.35 RISE=2 TARG v(saida_N) VAL=0.35 FALL=3
+.MEASURE TRAN td_hl_a0 TRIG     v(A)   VAL=0.35 FALL=2 TARG v(saida_N) VAL=0.35 FALL=3
 							    
-.MEASURE TRAN td_lh_b0 TRIG     v(B)   VAL=0.35 FALL=2 TARG v(SUM) VAL=0.35 RISE=4
-.MEASURE TRAN td_hl_c0 TRIG     v(B)   VAL=0.35 RISE=3 TARG v(SUM) VAL=0.35 FALL=4
+.MEASURE TRAN td_lh_b0 TRIG     v(B)   VAL=0.35 FALL=2 TARG v(saida_N) VAL=0.35 RISE=4
+.MEASURE TRAN td_hl_c0 TRIG     v(B)   VAL=0.35 RISE=3 TARG v(saida_N) VAL=0.35 FALL=4
 
-.MEASURE TRAN td_lh_bcout0 TRIG v(B)   VAL=0.35 RISE=3 TARG v(COUT) VAL=0.35 RISE=5
-.MEASURE TRAN td_hl_bcout0 TRIG v(B)   VAL=0.35 FALL=3 TARG v(COUT) VAL=0.35 FALL=5
+.MEASURE TRAN td_lh_bCout0 TRIG v(B)   VAL=0.35 RISE=3 TARG v(Cout_N) VAL=0.35 RISE=5
+.MEASURE TRAN td_hl_bCout0 TRIG v(B)   VAL=0.35 FALL=3 TARG v(Cout_N) VAL=0.35 FALL=5
 									   
-.MEASURE TRAN td_lh_acout0 TRIG v(A)   VAL=0.35 RISE=3 TARG v(COUT) VAL=0.35 RISE=6
-.MEASURE TRAN td_hl_acout0 TRIG v(A)   VAL=0.35 FALL=3 TARG v(COUT) VAL=0.35 FALL=6
+.MEASURE TRAN td_lh_aCout0 TRIG v(A)   VAL=0.35 RISE=3 TARG v(Cout_N) VAL=0.35 RISE=6
+.MEASURE TRAN td_hl_aCout0 TRIG v(A)   VAL=0.35 FALL=3 TARG v(Cout_N) VAL=0.35 FALL=6
 
-.MEASURE TRAN td_lh_ccout0 TRIG v(CIN) VAL=0.35 RISE=4 TARG v(COUT) VAL=0.35 RISE=7
-.MEASURE TRAN td_hl_ccout0 TRIG v(CIN) VAL=0.35 FALL=4 TARG v(COUT) VAL=0.35 FALL=7
+.MEASURE TRAN td_lh_cCout0 TRIG v(CIN) VAL=0.35 RISE=4 TARG v(Cout_N) VAL=0.35 RISE=7
+.MEASURE TRAN td_hl_cCout0 TRIG v(CIN) VAL=0.35 FALL=4 TARG v(Cout_N) VAL=0.35 FALL=7
 
-.MEASURE TRAN td_lh_ccout1 TRIG v(CIN) VAL=0.35 RISE=5 TARG v(COUT) VAL=0.35 RISE=8
-.MEASURE TRAN td_hl_ccout1 TRIG v(CIN) VAL=0.35 FALL=5 TARG v(COUT) VAL=0.35 FALL=8
+.MEASURE TRAN td_lh_cCout1 TRIG v(CIN) VAL=0.35 RISE=5 TARG v(Cout_N) VAL=0.35 RISE=8
+.MEASURE TRAN td_hl_cCout1 TRIG v(CIN) VAL=0.35 FALL=5 TARG v(Cout_N) VAL=0.35 FALL=8
 
 * Measuring Power and energy
 
@@ -97,11 +199,11 @@ set color1=black
 set xbrushwidth=3
 run
 display 
-*plot v(A)
-*plot v(B)
-*plot v(CIN)
-*plot v(COUT)
-*plot v(SUM)
+plot v(A)
+plot v(B)
+plot v(CIN)
+plot v(Cout_N)
+plot v(saida_N)
 .endc
 
 .end
