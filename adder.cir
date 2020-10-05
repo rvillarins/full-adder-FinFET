@@ -13,9 +13,9 @@
 VVdd    VDD gnd supply
 .global VDD
 
-Va   A   gnd pwl(0 0 1n 0           2n 0           3n 0 3.01n 0.7 4n 0.7         5n 0.7         6n 0.7 6.01n 0 7n 0 7.01n 0.7 8n 0.7 8.01n 0 9n 0           10n 0            11n 0              12n 0            13n 0            14n 0            15n 0              16n 0   16.01n 0.7 17n 0.7 17.01n 0 18n 0   18.01n 0.7 19n 0.7          20n 0.7          21n 0.7 21.01n 0   22n 0            23n 0            24n 0)
-Vb   B   gnd pwl(0 0 1n 0           2n 0 		   3n 0 3.01n 0.7 4n 0.7         5n 0.7         6n 0.7 6.01n 0 7n 0           8n 0           9n 0 9.01n 0.7 10n 0.7 10.01n 0 11n 0   11.01n 0.7 12n 0.7 12.01n 0 13n 0 13.01n 0.7 14n 0.7 14.01n 0 15n 0   15.01n 0.7 16n 0.7            17n 0.7          18n 0.7 18.01n 0   19n 0            20n 0            21n 0   21.01n 0.7 22n 0.7          23n 0.7          24n 0.7)
-VCin CIN gnd pwl(0 0 1n 0 1.01n 0.7 2n 0.7 2.01n 0 3n 0           4n 0 4.01n 0.7 5n 0.7 5.01n 0 6n 0           7n 0           8n 0           9n 0 9.01n 0.7 10n 0.7          11n 0.7            12n 0.7          13n 0.7          14n 0.7          15n 0.7 15.01n 0   16n 0              17n 0            18n 0              19n 0 19.01n 0.7 20n 0.7 20.01n 0 21n 0              22n 0 22.01n 0.7 23n 0.7 23.01n 0 24n 0)     
+Va   A   gnd pwl(0 0 0.5n 0           1n 0           1.5n 0 1.51n 0.7 2n 0.7         2.5n 0.7         3n 0.7 3.01n 0 3.5n 0 3.51n 0.7 4n 0.7 4.01n 0 4.5n 0           5n 0            5.5n 0              6n 0            6.5n 0            7n 0            7.5n 0              8n 0   8.01n 0.7 8.5n 0.7 8.51n 0 9n 0   9.01n 0.7 9.5n 0.7          10n 0.7          10.5n 0.7 10.51n 0   11n 0            11.5n 0            12n 0)
+Vb   B   gnd pwl(0 0 0.5n 0           1n 0 		   1.5n 0 1.51n 0.7 2n 0.7         2.5n 0.7         3n 0.7 3.01n 0 3.5n 0           4n 0           4.5n 0 4.51n 0.7 5n 0.7 5.01n 0 5.5n 0   5.51n 0.7 6n 0.7 6.01n 0 6.5n 0 6.51n 0.7 7n 0.7 7.01n 0 7.5n 0   7.51n 0.7 8n 0.7            8.5n 0.7          9n 0.7 9.01n 0   9.5n 0            10n 0            10.5n 0   10.51n 0.7 11n 0.7          11.5n 0.7          12n 0.7)
+VCin CIN gnd pwl(0 0 0.5n 0 0.51n 0.7 1n 0.7 1.01n 0 1.5n 0           2n 0 2.01n 0.7 2.5n 0.7 2.51n 0 3n 0           3.5n 0           4n 0           4.5n 0 4.51n 0.7 5n 0.7          5.5n 0.7            6n 0.7          6.5n 0.7          7n 0.7          7.5n 0.7 7.51n 0   8n 0              8.5n 0            9n 0              9.5n 0 9.51n 0.7 10n 0.7 10.01n 0 10.5n 0              11n 0 11.01n 0.7 11.5n 0.7 11.51n 0 12n 0)     
                                                                                                                                                                              
 *Hardware description 
 
@@ -141,16 +141,16 @@ Mnmos25 Cout nor1 gnd gnd    nmos L = 16n W = 16n
 Mpmos29 Cout_N Cout vdd vdd    pmos L = 16n W = 32n
 Mnmos29 Cout_N Cout gnd gnd    nmos L = 16n W = 16n
 
-CCout Cout_N gnd 5.5f
+CCout Cout_N gnd 1.5f
 
 Mpmos30 saida_N saida vdd vdd    pmos L = 16n W = 32n
 Mnmos30 saida_N saida gnd gnd    nmos L = 16n W = 16n 
 
-Csaida saida_N gnd 5f
+Csaida saida_N gnd 1f
 
 *Simulation
 
-.TRAN 0.01n 24n
+.TRAN 0.01n 12n
 
 * Measuring saida and carry out output Delay
 
@@ -181,15 +181,15 @@ Csaida saida_N gnd 5f
 * Measuring Power and energy
 
 *energy
-.measure tran energ_FAvdd INTEG i(vvdd) from=0.01n to=24n
-.measure tran energ_FAva  INTEG i(vva)  from=0.01n to=24n
-.measure tran energ_FAvb  INTEG i(vvb)  from=0.01n to=24n
-.measure tran energ_FAvc  INTEG i(vvc)  from=0.01n to=24n
+.measure tran energ_FAvdd INTEG i(vvdd) from=0.01n to=12n
+.measure tran energ_FAva  INTEG i(vva)  from=0.01n to=12n
+.measure tran energ_FAvb  INTEG i(vvb)  from=0.01n to=12n
+.measure tran energ_FAvc  INTEG i(vvc)  from=0.01n to=12n
 
 *Power
-.measure tran avgi_a   AVG i(va)   from=0.01n to=24n 
-.measure tran avgi_b   AVG i(vb)   from=0.01n to=24n 
-.measure tran avgi_cin AVG i(vcin) from=0.01n to=24n 
+.measure tran avgi_a   AVG i(va)   from=0.01n to=12n 
+.measure tran avgi_b   AVG i(vb)   from=0.01n to=12n 
+.measure tran avgi_cin AVG i(vcin) from=0.01n to=12n 
 .measure tran powera PARAM = ((((avgi_a)) + (avgi_b * (-1)) + (avgi_cin)) * 0.7)
 
 *Printing grath settings
